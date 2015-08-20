@@ -43,9 +43,10 @@ $(function() {
         * and that the name is not empty.
         */
         it('name is defined', function(){
-            for(var feed in allFeeds){
-                expect(allFeeds[feed].name).toBeDefined();
-                expect(allFeeds[feed].name.length).not.toBe(0);
+            var len = allFeeds.length;
+            for(var i = 0; i < len; i++){
+                expect(allFeeds[i].name).toBeDefined();
+                expect(allFeeds[i].name.length).not.toBe(0);
             }
         });
     });
