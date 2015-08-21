@@ -23,6 +23,7 @@ $(function() {
         */
         it('are defined', function() {
             expect(allFeeds).toBeDefined();
+            expect(allFeeds instanceof Array).toBeTruthy();
             expect(allFeeds.length).not.toBe(0);
         });
 
@@ -34,6 +35,7 @@ $(function() {
             var len = allFeeds.length;
             for(var i = 0; i < len; i++){
                 expect(allFeeds[i].url).toBeDefined();
+                expect(allFeeds[i].url).toMatch(/^http(s?)\:\/\//);
                 expect(allFeeds[i].url.length).not.toBe(0);
             }
         });
@@ -46,6 +48,7 @@ $(function() {
             var len = allFeeds.length;
             for(var i = 0; i < len; i++){
                 expect(allFeeds[i].name).toBeDefined();
+                expect(typeof allFeeds[i].name).toBe('string');
                 expect(allFeeds[i].name.length).not.toBe(0);
             }
         });
@@ -64,11 +67,15 @@ $(function() {
         });
 
         it('toggles visibility when clicked', function(){
-            //The expectation is that the menu displays when clicked.
-            $('i').click();
+            /*The expectation is that the menu
+            *displays when clicked.
+            */
+            $('.icon-list').click();
             expect($('body').attr('class')).toBe("");
-            //The expectation is that the menu is hidden when clicked.
-            $('i').click();
+            /*The expectation is that the menu is
+            *hidden when clicked.
+            */
+            $('.icon-list').click();
             expect($('body').attr('class')).toBe('menu-hidden');
         });
     });
@@ -79,12 +86,11 @@ $(function() {
     */
     describe('Initial Entries', function(){
         beforeEach(function(done){
-                loadFeed(0, done);
+            loadFeed(0, done);
         });
 
         it('should contain at least 1 entry', function(){
-            var lengthGreaterThanZero = ($('.feed .entry').length > 0);
-            expect(lengthGreaterThanZero).toBe(true);
+            expect($('.feed .entry').length).toBeGreaterThan(0);
         });
     });
 
@@ -93,15 +99,14 @@ $(function() {
     */
     describe('New Feed Selection', function(){
         beforeEach(function(done){
-            loadFeed(0, done)
+            loadFeed(0, done);
         });
 
         it('should change the content', function(done){
             var previousContent = $('.feed .entry').text();
             loadFeed(1, function(){
                 var newContent = $('.feed .entry').text();
-                var contentsDoNotMatch = (previousContent != newContent);
-                expect(contentsDoNotMatch).toBe(true);
+                expect(previousContent).not.toEqual(newContent);
                 done();
             });
         });
